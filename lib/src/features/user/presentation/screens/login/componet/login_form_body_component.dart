@@ -9,7 +9,6 @@ class LoginFormBodyComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
     return Container(
-      
       decoration: BoxDecoration(
         color: scaffoldBackgroundColor,
         borderRadius: const BorderRadius.only(
@@ -20,7 +19,7 @@ class LoginFormBodyComponent extends StatelessWidget {
         children: [
           LoginFormComponent(),
           Padding(
-            padding:  const EdgeInsets.symmetric(vertical: 50),
+            padding: const EdgeInsets.symmetric(vertical: 50),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

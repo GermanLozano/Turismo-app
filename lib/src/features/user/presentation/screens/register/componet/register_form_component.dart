@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:turismo_app/src/core/mixings/validator.dart';
 import 'package:turismo_app/src/features/user/domain/entities/user_entity.dart';
 import 'package:turismo_app/src/features/user/presentation/bloc/bloc.dart';
@@ -11,10 +12,8 @@ class RegisterFormComponent extends StatelessWidget with Validator {
 
   final formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
-    
     final registerFormCubit = context.read<RegisterFormCubit>();
     final textStyles = Theme.of(context).textTheme;
 
@@ -26,46 +25,45 @@ class RegisterFormComponent extends StatelessWidget with Validator {
             padding: const EdgeInsets.symmetric(vertical: 70),
             child: Text('Crear Cuenta', style: textStyles.titleLarge),
           ),
-
-          BlocBuilder<RegisterFormCubit, RegisterFormCubitState>(
-            builder: (context, state) {
-              return Form(
-                key: formKey,
-                autovalidateMode: state.autovalidateMode,
-                child: Column(
-                  spacing: 20,
-                  children: [
-                    CustomTextFormField(
-                      label: 'Nombre completo',
-                      validator: validateName,
-                      onChanged: registerFormCubit.updateFullName,
-                    ),
-                    CustomTextFormField(
-                      label: 'Correo',
-                      validator: validateEmail,
-                      onChanged: registerFormCubit.updateEmail,
-                    ),
-
-                    CustomTextFormField(
-                      label: 'Contraseña',
-                      obscureText: true,
-                      validator: validatePassword,
-                      onChanged: registerFormCubit.updatePassword,
-                    ),
-
-                    CustomTextFormField(
-                      label: 'Confirma Contraseña',
-                      obscureText: true,
-                      validator: (value) => validateConfirmPassword(value, registerFormCubit.state.password),
-                      onChanged: registerFormCubit.updatePassword,
-                      onFieldSubmitted: (_) {
-                        _onFormSubmit(context, registerFormCubit);
-                      },
-                    ),
-                  ],
+          Form(
+            key: formKey,
+            autovalidateMode: registerFormCubit.state.autovalidateMode,
+            child: Column(
+              spacing: 20,
+              children: [
+                CustomTextFormField(
+                  label: 'Nombre completo',
+                  initialValue: registerFormCubit.state.fullName,
+                  validator: validateName,
+                  onChanged: registerFormCubit.updateFullName,
                 ),
-              );
-            },
+                CustomTextFormField(
+                  label: 'Correo',
+                  initialValue: registerFormCubit.state.email,
+                  validator: validateEmail,
+                  onChanged: registerFormCubit.updateEmail,
+                ),
+                CustomTextFormField(
+                  label: 'Contraseña',
+                  initialValue: registerFormCubit.state.password,
+                  obscureText: true,
+                  validator: validatePassword,
+                  onChanged: registerFormCubit.updatePassword,
+                ),
+                CustomTextFormField(
+                  label: 'Confirma Contraseña',
+                  obscureText: true,
+                  validator: (value) => validateConfirmPassword(
+                    value,
+                    registerFormCubit.state.password,
+                  ),
+                  onChanged: registerFormCubit.updatePassword,
+                  onFieldSubmitted: (_) {
+                    _onFormSubmit(context, registerFormCubit);
+                  },
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 30),
           SizedBox(
@@ -75,6 +73,10 @@ class RegisterFormComponent extends StatelessWidget with Validator {
               listener: (context, state) {
                 if (state is UserAuthFailure) {
                   showSnackbar(context, state.message);
+                }
+                if (state is UserAuthSignUpSuccess) {
+                  showSnackbar(context, state.message);
+                  context.go('/login');
                 }
               },
               builder: (context, state) {
@@ -88,34 +90,36 @@ class RegisterFormComponent extends StatelessWidget with Validator {
               },
             ),
           ),
-
-        
         ],
       ),
     );
   }
 
-
   void showSnackbar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
-
-  void _onFormSubmit(BuildContext context, RegisterFormCubit registerFormCubit) {
+  void _onFormSubmit(
+    BuildContext context,
+    RegisterFormCubit registerFormCubit,
+  ) {
     if (formKey.currentState!.validate()) {
       context.read<UserAuthBloc>().add(
             OnSignUpUserEvent(
               userEntity: UserEntity(
-                id: ' ', fullName: 
-                registerFormCubit.state.fullName, 
-                email: registerFormCubit.state.email, 
+                id: ' ',
+                fullName: registerFormCubit.state.fullName,
+                email: registerFormCubit.state.email,
                 password: registerFormCubit.state.password,
-                ),
+              ),
             ),
           );
     } else {
-      context.read<RegisterFormCubit>().updateAutovalidateMode(AutovalidateMode.always);
+      context
+          .read<RegisterFormCubit>()
+          .updateAutovalidateMode(AutovalidateMode.always);
       showSnackbar(context, 'Campos incompletos');
     }
   }

@@ -11,13 +11,11 @@ part 'user_auth_event.dart';
 part 'user_auth_state.dart';
 
 class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
-  
   UserAuthBloc({
-    required this.signInUseCase, 
-    required this.signUpUseCase, 
+    required this.signInUseCase,
+    required this.signUpUseCase,
     required this.logOutUseCase,
-    }) : super(UserAuthInitial()) {
-
+  }) : super(UserAuthInitial()) {
     on<OnGetUserEvent>(_onSignInEvent);
     on<OnSignUpUserEvent>(_onSignUpEvent);
     on<OnLogoutUserEvent>(_onLogOutEvent);
@@ -26,7 +24,6 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
   final SignInUseCase signInUseCase;
   final SignUpUseCase signUpUseCase;
   final LogOutUseCase logOutUseCase;
-
 
   // este es el metodo para iniciar sesion
 
@@ -73,14 +70,14 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
         emit(UserAuthFailure(failure.message));
       },
       (susses) {
-        customLog(susses.toString());
         emit(
-          const UserAuthSignUpSuccess(),
+          const UserAuthSignUpSuccess(
+            message: 'usuario creado satisfactoriamente',
+          ),
         );
       },
     );
   }
-
 
   // este es el metodo para iniciar sesion
 

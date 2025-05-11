@@ -10,27 +10,41 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textStyles = Theme.of(context).textTheme;
+
     return BlocProvider(
-      create: (context) => LoginFormCubit(),
-      child:  Scaffold(
-        body: GeometricalBackground(
-          child: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: Column(
-              children: [
-                // Banner
-                BannerWidget(
-                  widget: const Icon(
-                    Icons.place_outlined,
-                    color: Colors.white,
-                    size: 100,
+      create: (_) => LoginFormCubit(),
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          body: GeometricalBackground(
+            child: SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              child: Column(
+                children: [
+                  // Banner
+                  BannerWidget(
+                    widget: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.logout_outlined,
+                          color: Colors.white,
+                          size: 100,
+                        ),
+                        Text(
+                          'Login',
+                          style: textStyles.titleLarge
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    height: MediaQuery.sizeOf(context).height * 0.5,
                   ),
-                  height: MediaQuery.sizeOf(context).height*0.5,
-                
-                ),
-                // From
-                const LoginFormBodyComponent(),
-              ],
+                  // From
+                  const LoginFormBodyComponent(),
+                ],
+              ),
             ),
           ),
         ),

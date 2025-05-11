@@ -7,7 +7,7 @@ import 'package:turismo_app/src/features/user/presentation/bloc/user_auth/user_a
 import 'package:turismo_app/src/features/user/presentation/screens/login/login_screen.dart';
 import 'package:turismo_app/src/features/user/presentation/screens/register/register_screen.dart';
 
-final GoRouter appRouter = GoRouter(
+final appRouter = GoRouter(
   initialLocation: '/login',
   routes: [
     GoRoute(
@@ -40,9 +40,7 @@ final GoRouter appRouter = GoRouter(
   ],
   redirect: (context, state) {
     final userAuthBloc = context.read<UserAuthBloc>();
-
-    customLog('=======> ${userAuthBloc.state}');
-
+    customLog(">>>>>>>>>>>>>${userAuthBloc.state}");
     final userAuthState = userAuthBloc.state is UserAuthLoaded;
 
     final authRoutes = ['/login', '/register'];

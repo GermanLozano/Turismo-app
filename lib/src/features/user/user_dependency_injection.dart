@@ -26,19 +26,16 @@ class UserDependencyInjection {
           repositoryInterface: sl(),
         ),
       )
-
       ..registerLazySingleton<SignUpUseCase>(
         () => SignUpUseCase(
           repositoryInterface: sl(),
         ),
       )
-
       ..registerLazySingleton<LogOutUseCase>(
         () => LogOutUseCase(
           repositoryInterface: sl(),
         ),
       )
-
 
       // ------------------------ Repositories ------------------------
       ..registerLazySingleton<RepositoryInterface>(

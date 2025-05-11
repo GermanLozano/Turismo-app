@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:turismo_app/src/core/constants/constants.dart';
 import 'package:turismo_app/src/features/user/presentation/bloc/user_auth/user_auth_bloc.dart';
 
@@ -20,13 +21,20 @@ class HomeScreen extends StatelessWidget {
               'Welcome to the Home Screen',
               style: AppTextStyle.header,
             ),
-            ElevatedButton(
-              onPressed: () {
-                context.read<UserAuthBloc>().add(
-                      const OnLogoutUserEvent(),
-                    );
+            BlocListener<UserAuthBloc, UserAuthState>(
+              listener: (context, state) {
+                if (state is UserAuthInitial) {
+                  context.go('/login');
+                }
               },
-              child: const Text('Cerrar sesion'),
+              child: ElevatedButton(
+                onPressed: () {
+                  context.read<UserAuthBloc>().add(
+                        const OnLogoutUserEvent(),
+                      );
+                },
+                child: const Text('Cerrar sesion'),
+              ),
             ),
           ],
         ),

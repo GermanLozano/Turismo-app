@@ -7,15 +7,13 @@ import 'package:turismo_app/src/features/user/domain/entities/user_entity.dart';
 import 'package:turismo_app/src/features/user/domain/repository/repository_interface.dart';
 
 class RepositoryImplementation implements RepositoryInterface {
-
-
   RepositoryImplementation({
     required this.remoteDataSourceInterface,
   });
 
   final RemoteDataSourceInterface remoteDataSourceInterface;
 
-  // la implementacion del metodo de inicio de sesion 
+  // la implementacion del metodo de inicio de sesion
 
   @override
   FutureEither<UserEntity> signIn({
@@ -34,7 +32,6 @@ class RepositoryImplementation implements RepositoryInterface {
     }
   }
 
-
   // implementacion del metodo de registro
 
   @override
@@ -50,13 +47,16 @@ class RepositoryImplementation implements RepositoryInterface {
     }
   }
 
-
   // implementacion del metodo de cerrar sesion
-  
+
   @override
-  FutureEither<bool> logOut() {
-    throw UnimplementedError();
+  FutureEither<bool> logOut() async {
+    try {
+      final result = await remoteDataSourceInterface.logOut();
+      return Right(result);
+    } on ServerException catch (e) {
+      final result = ServerFailure(e.message);
+      return Left(result);
+    }
   }
-
-
 }
