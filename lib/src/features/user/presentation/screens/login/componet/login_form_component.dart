@@ -14,43 +14,38 @@ class LoginFormComponent extends StatelessWidget with Validator {
   @override
   Widget build(BuildContext context) {
     final loginFormCubit = context.read<LoginFormCubit>();
-    final textStyles = Theme.of(context).textTheme;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 70),
-            child: Text('Login', style: textStyles.titleLarge),
-          ),
-          BlocBuilder<LoginFormCubit, LoginFormCubitState>(
-            builder: (context, state) {
-              return Form(
-                key: formKey,
-                autovalidateMode: state.autovalidateMode,
-                child: Column(
-                  children: [
-                    CustomTextFormField(
-                      label: 'Correo',
-                      keyboardType: TextInputType.emailAddress,
-                      validator: validateEmail,
-                      onChanged: loginFormCubit.updateEmail,
-                    ),
-                    const SizedBox(height: 30),
-                    CustomTextFormField(
-                      label: 'Contraseña',
-                      obscureText: true,
-                      validator: validatePassword,
-                      onChanged: loginFormCubit.updatePassword,
-                      onFieldSubmitted: (_) {
-                        _onFormSubmit(context, loginFormCubit);
-                      },
-                    ),
-                  ],
+          Form(
+            key: formKey,
+            autovalidateMode: loginFormCubit.state.autovalidateMode,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 60,
                 ),
-              );
-            },
+                CustomTextFormField(
+                  label: 'Correo',
+                  initialValue: loginFormCubit.state.email,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: validateEmail,
+                  onChanged: loginFormCubit.updateEmail,
+                ),
+                const SizedBox(height: 30),
+                CustomTextFormField(
+                  label: 'Contraseña',
+                  initialValue: loginFormCubit.state.password,
+                  obscureText: true,
+                  validator: validatePassword,
+                  onChanged: loginFormCubit.updatePassword,
+                  onFieldSubmitted: (_) {
+                    _onFormSubmit(context, loginFormCubit);
+                  },
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 30),
           SizedBox(
@@ -60,6 +55,9 @@ class LoginFormComponent extends StatelessWidget with Validator {
               listener: (context, state) {
                 if (state is UserAuthFailure) {
                   showSnackbar(context, state.message);
+                }
+                if (state is UserAuthLoaded) {
+                  context.go('/home');
                 }
               },
               builder: (context, state) {
@@ -94,8 +92,6 @@ class LoginFormComponent extends StatelessWidget with Validator {
               password: loginFormCubit.state.password,
             ),
           );
-
-      context.pushNamed('home');
     } else {
       context
           .read<LoginFormCubit>()

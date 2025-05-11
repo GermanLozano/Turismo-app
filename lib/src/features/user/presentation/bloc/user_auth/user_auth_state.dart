@@ -24,12 +24,12 @@ final class UserAuthLoaded extends UserAuthState {
 
 // ✅ Estado cuando el registro fue exitoso
 final class UserAuthSignUpSuccess extends UserAuthState {
-  const UserAuthSignUpSuccess();
+  const UserAuthSignUpSuccess({required this.message});
+  final String message;
 
   @override
   List<Object> get props => [];
 }
-
 
 // Estado cuando falla login o registro
 final class UserAuthFailure extends UserAuthState {

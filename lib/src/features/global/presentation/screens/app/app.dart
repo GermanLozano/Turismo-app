@@ -16,7 +16,6 @@ class App extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<UserAuthBloc>(),
         ),
-
         BlocProvider(
           create: (context) => sl<CategoryManagemenBloc>(),
         ),

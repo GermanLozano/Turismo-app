@@ -1,12 +1,10 @@
-
 part of 'register_form_cubit.dart';
 
- class RegisterFormCubitState extends Equatable {
-
+class RegisterFormCubitState extends Equatable {
   const RegisterFormCubitState({
-    this.fullName = ' ',
-    this.email = ' ',
-    this.password = ' ',
+    this.fullName = '',
+    this.email = '',
+    this.password = '',
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
   });
 
@@ -32,6 +30,4 @@ part of 'register_form_cubit.dart';
       autovalidateMode: autovalidateMode ?? this.autovalidateMode,
     );
   }
-
-
 }

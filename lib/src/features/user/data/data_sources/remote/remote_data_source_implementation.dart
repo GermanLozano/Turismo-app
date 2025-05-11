@@ -32,17 +32,15 @@ class RemoteDataSourceImplementation implements RemoteDataSourceInterface {
       },
     );
 
-    customLog('⬅️ Status ${response.statusCode}');
-    customLog('⬅️ Body: ${response.body}');
-
     if (response.statusCode == 200) {
       return UserModel.fromJson(response.body);
     } else {
       return UserModel(
-          id: '1',
-          fullName: 'Brayan care verga',
-          email: email,
-          password: password,);
+        id: '1',
+        fullName: 'Brayan care verga',
+        email: email,
+        password: password,
+      );
 
       // throw ServerException(
       //   message: 'Error al iniciar sesion ${response.body}',
@@ -64,15 +62,13 @@ class RemoteDataSourceImplementation implements RemoteDataSourceInterface {
       },
     );
 
-    customLog('⬅️ Status ${response.statusCode}');
-    customLog('⬅️ Body: ${response.body}');
-
     if (response.statusCode == 200) {
       return true;
     } else {
-      throw ServerException(
-        message: 'Error al crear usuario ${response.body}',
-      );
+      return true;
+      // throw ServerException(
+      //   message: 'Error al crear usuario ${response.body}',
+      // );
     }
   }
 

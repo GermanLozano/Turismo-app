@@ -1,0 +1,2 @@
+C:/Users/andre/Desktop/german/Turismo-app/android/app/.cxx/Debug/604l4u2l/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/andre/Desktop/german/Turismo-app/android/app/.cxx/Debug/604l4u2l/armeabi-v7a/CMakeFiles/rebuild_cache.dir
