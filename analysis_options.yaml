@@ -1,0 +1,14 @@
+include: package:very_good_analysis/analysis_options.6.0.0.yaml
+linter:
+  rules:
+    public_member_api_docs: false
+    sort_constructors_first: true
+    one_member_abstracts: false
+    always_declare_return_types: true
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    avoid_unnecessary_containers: true
+    use_key_in_widget_constructors: true
+    avoid_print: true
+    prefer_final_locals: true
+    lines_longer_than_80_chars: false
