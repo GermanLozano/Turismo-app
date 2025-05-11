@@ -55,9 +55,7 @@ final GoRouter appRouter = GoRouter(
       return '/login';
     }
 
-    if (userAuthState && authRoutes.contains(state.matchedLocation)) {
-      return '/home';
-    }
+  
 
     return null;
   },
