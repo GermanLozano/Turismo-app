@@ -1,8 +1,6 @@
-
 import 'package:equatable/equatable.dart';
 
 class IndividualEntity extends Equatable {
-  
   const IndividualEntity({
     required this.name,
     required this.address,
@@ -14,8 +12,8 @@ class IndividualEntity extends Equatable {
   final String name;
   final String address;
   final String valoration;
-  final String type; 
-  final String imageUrl; 
+  final String type;
+  final String imageUrl;
 
   @override
   List<Object> get props {
@@ -27,6 +25,4 @@ class IndividualEntity extends Equatable {
       imageUrl,
     ];
   }
-
-
 }

@@ -6,7 +6,7 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
     this.label,
-    this.hint,
+    this.hintText,
     this.errorMessage,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
@@ -14,10 +14,14 @@ class CustomTextFormField extends StatelessWidget {
     this.onFieldSubmitted,
     this.validator,
     this.initialValue,
+    this.expands = false,
+    this.prefixIcon,
+    this.labelText,
+    this.helperText,
   });
 
   final String? label;
-  final String? hint;
+  final String? hintText;
   final String? errorMessage;
   final bool obscureText;
   final TextInputType? keyboardType;
@@ -25,6 +29,10 @@ class CustomTextFormField extends StatelessWidget {
   final Function(String)? onFieldSubmitted;
   final String? initialValue;
   final String? Function(String?)? validator;
+  final bool? expands;
+  final Widget? prefixIcon;
+  final String? labelText;
+  final String? helperText;
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +50,11 @@ class CustomTextFormField extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.only(
-            topLeft: borderRadius,
-            bottomLeft: borderRadius,
-            bottomRight: borderRadius,),
+          topLeft: borderRadius,
+          bottomLeft: borderRadius,
+          bottomRight: borderRadius,
+          topRight: borderRadius,
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.06),
@@ -54,6 +64,7 @@ class CustomTextFormField extends StatelessWidget {
         ],
       ),
       child: TextFormField(
+        expands: expands!,
         initialValue: initialValue,
         onChanged: onChanged,
         validator: validator,
@@ -62,17 +73,26 @@ class CustomTextFormField extends StatelessWidget {
         keyboardType: keyboardType,
         style: const TextStyle(fontSize: 20, color: Colors.black54),
         decoration: InputDecoration(
+          helperText: helperText,
+          labelText: labelText,
+          prefixIcon: prefixIcon,
+
           floatingLabelStyle: const TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18,),
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
           enabledBorder: border,
           focusedBorder: border,
           errorBorder: border.copyWith(
-              borderSide: const BorderSide(color: Colors.transparent),),
+            borderSide: const BorderSide(color: Colors.transparent),
+          ),
           focusedErrorBorder: border.copyWith(
-              borderSide: const BorderSide(color: Colors.transparent),),
+            borderSide: const BorderSide(color: Colors.transparent),
+          ),
           isDense: true,
           label: label != null ? Text(label!) : null,
-          hintText: hint,
+          hintText: hintText,
           errorText: errorMessage,
           focusColor: colors.primary,
           // icon: Icon( Icons.supervised_user_circle_outlined, color: colors.primary, )

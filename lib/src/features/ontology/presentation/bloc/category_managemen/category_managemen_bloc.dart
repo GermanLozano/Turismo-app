@@ -9,10 +9,10 @@ part 'category_managemen_state.dart';
 
 class CategoryManagemenBloc
     extends Bloc<CategoryManagemenEvent, CategoryManagemenState> {
-  CategoryManagemenBloc({required this.getCategoriesUseCase})
-      : super(CategoryInitial()) {
+  CategoryManagemenBloc({
+    required this.getCategoriesUseCase,
+  }) : super(CategoryInitial()) {
     on<GetCategoriesEvent>(_onGetCategories);
-    // on<OnGetUserEvent>(_onCreateuseUserEvent);
   }
   final GetCategoriesUseCase getCategoriesUseCase;
 

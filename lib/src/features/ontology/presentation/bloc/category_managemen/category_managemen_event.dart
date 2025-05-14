@@ -9,3 +9,11 @@ sealed class CategoryManagemenEvent extends Equatable {
 
 final class GetCategoriesEvent extends CategoryManagemenEvent {}
 
+final class GetSubCategoriesEvent extends CategoryManagemenEvent {
+  const GetSubCategoriesEvent({required this.category});
+
+  final CategoryEntity category;
+
+  @override
+  List<Object> get props => [category];
+}

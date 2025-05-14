@@ -1,17 +1,21 @@
 import 'dart:math' show pi;
 import 'package:flutter/material.dart';
 
-
 class GeometricalBackground extends StatelessWidget {
-  const GeometricalBackground({required this.child, super.key});
+  const GeometricalBackground({
+    required this.child,
+    super.key,
+    this.lengthRows = 6,
+  });
   final Widget child;
+  final int? lengthRows;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final backgroundColor = Theme.of(context).scaffoldBackgroundColor;
-    final borderSize = size.width / 7; // Este es el tamaño para colocar 7 elementos
-
+    final borderSize =
+        size.width / 7; // Este es el tamaño para colocar 7 elementos
 
     final shapeWidgets = [
       _Circle(borderSize),
@@ -23,38 +27,27 @@ class GeometricalBackground extends StatelessWidget {
       _SemiCircleInverted(borderSize),
     ];
 
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Positioned(child: Container(color: backgroundColor)),
 
-    return SizedBox.expand(
-      child: Stack(
-        children: [
-
-          Positioned(child: Container(color: backgroundColor)),
-
-          // Background with shapes
-          Container(
-            height: size.height * 0.7,
-            decoration: const BoxDecoration(
-              color: Colors.black,
-            ),
-            child: Column(
-              children: [
-                ShapeRow(shapeWidgets: shapeWidgets),
-                ShapeRow(shapeWidgets: shapeWidgets),
-                ShapeRow(shapeWidgets: shapeWidgets),
-                ShapeRow(shapeWidgets: shapeWidgets),
-                ShapeRow(shapeWidgets: shapeWidgets),
-                ShapeRow(shapeWidgets: shapeWidgets),
-                ShapeRow(shapeWidgets: shapeWidgets),
-              ],
+        // Background with shapes
+        Container(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+          ),
+          child: Column(
+            children: List.generate(
+              lengthRows!,
+              (index) => ShapeRow(shapeWidgets: shapeWidgets),
             ),
           ),
+        ),
 
-          
-
-          // Child widget
-          child,
-        ],
-      ),
+        // Child widget
+        child,
+      ],
     );
   }
 }
@@ -64,7 +57,8 @@ class GeometricalBackground extends StatelessWidget {
 /// El initState rompe la referencia para que lo pueda usar en varios lugares
 class ShapeRow extends StatefulWidget {
   const ShapeRow({
-    required this.shapeWidgets, super.key,
+    required this.shapeWidgets,
+    super.key,
   });
 
   final List<Widget> shapeWidgets;
@@ -74,7 +68,6 @@ class ShapeRow extends StatefulWidget {
 }
 
 class _ShapeRowState extends State<ShapeRow> {
-
   late List<Widget> shapeMixedUp;
 
   @override
@@ -91,10 +84,9 @@ class _ShapeRowState extends State<ShapeRow> {
 }
 
 class _Circle extends StatelessWidget {
-
   const _Circle(this.borderSize);
   final double borderSize;
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -109,10 +101,8 @@ class _Circle extends StatelessWidget {
 }
 
 class _Square extends StatelessWidget {
-
   const _Square(this.borderSize);
   final double borderSize;
-
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +117,6 @@ class _Square extends StatelessWidget {
 }
 
 class _RightTriangle extends StatelessWidget {
-
   const _RightTriangle(this.borderSize);
   final double borderSize;
 
@@ -144,7 +133,6 @@ class _RightTriangle extends StatelessWidget {
 }
 
 class _RightTrianglePainter extends CustomPainter {
-
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -152,8 +140,9 @@ class _RightTrianglePainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final path = Path();
-    path..lineTo(size.width, 0)
-        ..lineTo(0, size.height);
+    path
+      ..lineTo(size.width, 0)
+      ..lineTo(0, size.height);
 
     canvas.drawPath(path, paint);
   }
@@ -162,9 +151,7 @@ class _RightTrianglePainter extends CustomPainter {
   bool shouldRepaint(_RightTrianglePainter oldDelegate) => false;
 }
 
-
 class _LeftTriangle extends StatelessWidget {
-
   const _LeftTriangle(this.borderSize);
   final double borderSize;
 
@@ -181,7 +168,6 @@ class _LeftTriangle extends StatelessWidget {
 }
 
 class _LeftTrianglePainter extends CustomPainter {
-
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -189,8 +175,9 @@ class _LeftTrianglePainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final path = Path();
-    path..lineTo(size.width, 0)
-        ..lineTo(size.width, size.height);
+    path
+      ..lineTo(size.width, 0)
+      ..lineTo(size.width, size.height);
 
     canvas.drawPath(path, paint);
   }
@@ -199,9 +186,7 @@ class _LeftTrianglePainter extends CustomPainter {
   bool shouldRepaint(_LeftTrianglePainter oldDelegate) => false;
 }
 
-
 class _Diamond extends StatelessWidget {
-
   const _Diamond(this.borderSize);
   final double borderSize;
 
@@ -218,7 +203,6 @@ class _Diamond extends StatelessWidget {
 }
 
 class _DiamondPainter extends CustomPainter {
-
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -226,10 +210,11 @@ class _DiamondPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final path = Path();
-    path..moveTo(size.width * 0.5, 0 )
-        ..lineTo(0, size.height * 0.5)
-        ..lineTo(size.width * 0.5, size.height)
-        ..lineTo(size.width, size.height * 0.5);
+    path
+      ..moveTo(size.width * 0.5, 0)
+      ..lineTo(0, size.height * 0.5)
+      ..lineTo(size.width * 0.5, size.height)
+      ..lineTo(size.width, size.height * 0.5);
 
     canvas.drawPath(path, paint);
   }
@@ -238,9 +223,7 @@ class _DiamondPainter extends CustomPainter {
   bool shouldRepaint(_DiamondPainter oldDelegate) => false;
 }
 
-
 class _SemiCircle extends StatelessWidget {
-
   const _SemiCircle(this.borderSize);
   final double borderSize;
 
@@ -257,7 +240,6 @@ class _SemiCircle extends StatelessWidget {
 }
 
 class _SemiCirclePainter extends CustomPainter {
-
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -266,13 +248,13 @@ class _SemiCirclePainter extends CustomPainter {
 
     canvas.drawArc(
       Rect.fromCenter(
-        center: Offset(size.height/2, size.width/2), 
-        width: size.width, 
+        center: Offset(size.height / 2, size.width / 2),
+        width: size.width,
         height: size.height,
-      ), 
-      pi, 
-      pi, 
-      false, 
+      ),
+      pi,
+      pi,
+      false,
       paint,
     );
   }
@@ -280,8 +262,8 @@ class _SemiCirclePainter extends CustomPainter {
   @override
   bool shouldRepaint(_SemiCirclePainter oldDelegate) => false;
 }
-class _SemiCircleInverted extends StatelessWidget {
 
+class _SemiCircleInverted extends StatelessWidget {
   const _SemiCircleInverted(this.borderSize);
   final double borderSize;
 
@@ -298,7 +280,6 @@ class _SemiCircleInverted extends StatelessWidget {
 }
 
 class _SemiCircleInvertedPainter extends CustomPainter {
-
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -307,13 +288,13 @@ class _SemiCircleInvertedPainter extends CustomPainter {
 
     canvas.drawArc(
       Rect.fromCenter(
-        center: Offset(size.height/2, size.width/2), 
-        width: size.width, 
+        center: Offset(size.height / 2, size.width / 2),
+        width: size.width,
         height: size.height,
-      ), 
-      pi, 
-      -pi, 
-      false, 
+      ),
+      pi,
+      -pi,
+      false,
       paint,
     );
   }
@@ -321,4 +302,3 @@ class _SemiCircleInvertedPainter extends CustomPainter {
   @override
   bool shouldRepaint(_SemiCircleInvertedPainter oldDelegate) => false;
 }
-

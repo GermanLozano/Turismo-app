@@ -24,12 +24,12 @@ class RemoteDataSourceImplementation implements RemoteDataSourceInterface {
     final response = await client.get(url);
 
     if (response.statusCode == 200) {
-      // Mapeamos los datos a objetos CategoryList
-      final result = CategoryListModel.fromJson(response.body);
+      final categories = jsonDecode(response.body) as List;
+      final categoriesList = categories.map((e) {
+        return CategoryModel(value: e['nombre']['value'] as String);
+      }).toList();
 
-      customLog('===<<<<<>>> ${result.toMap()}');
-
-      return [CategoryModel(value: 'value')];
+      return categoriesList;
     } else {
       throw ServerException(
         message: 'Error al obtener las categorías: ${response.body}',
@@ -38,9 +38,24 @@ class RemoteDataSourceImplementation implements RemoteDataSourceInterface {
   }
 
   @override
-  Future<List<CategoryModel>> getSubCategories(
-      {required CategoryEntity categoria}) {
-    // TODO: implement getSubCategories
-    throw UnimplementedError();
+  Future<List<CategoryModel>> getSubCategories({
+    required CategoryEntity categoria,
+  }) async {
+    final url = Uri.parse('$apiUrl/subcategorias/${categoria.originalName}');
+
+    final response = await client.get(url);
+
+    if (response.statusCode == 200) {
+      final categories = jsonDecode(response.body) as List;
+      final categoriesList = categories.map((e) {
+        return CategoryModel(value: e['nombre']['value'] as String);
+      }).toList();
+
+      return categoriesList;
+    } else {
+      throw ServerException(
+        message: 'Error al obtener las categorías: ${response.body}',
+      );
+    }
   }
 }

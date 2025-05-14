@@ -1,27 +1,38 @@
 import 'package:flutter/material.dart';
-
-import 'components.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turismo_app/src/features/ontology/domain/entities/categoty_entity.dart';
+import 'package:turismo_app/src/features/ontology/presentation/bloc/bloc.dart';
+import 'package:turismo_app/src/features/ontology/presentation/screens/ontology_home/components/body_tab_bar_view.dart';
 
 class TapBarViewComponenet extends StatelessWidget {
   const TapBarViewComponenet({
-    super.key,
     required this.tabController,
+    super.key,
   });
 
-  final TabController tabController;
+  final TabController? tabController;
 
   @override
   Widget build(BuildContext context) {
-    return TabBarView(
-      controller: tabController,
-      children: [
-        // MovieViewComponent(),
-        // SizedBox.expand(),
-        // SizedBox.expand(),
-        // SizedBox.expand(),
-        // SizedBox.expand(),
-        // SizedBox.expand(),
-      ],
+    return BlocSelector<CategoryManagemenBloc, CategoryManagemenState,
+        List<CategoryEntity>>(
+      selector: (state) {
+        return state is CategoryLoaded ? state.categories : [];
+      },
+      builder: (context, state) {
+        if (tabController != null) {
+          return TabBarView(
+            controller: tabController,
+            children: state.map((category) {
+              return BodyTabBarView(
+                category: category,
+              );
+            }).toList(),
+          );
+        }
+
+        return const SizedBox();
+      },
     );
   }
 }
