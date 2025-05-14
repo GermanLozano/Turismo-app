@@ -4,7 +4,7 @@ import 'package:turismo_app/src/core/config/config.dart';
 import 'package:turismo_app/src/core/l10n/l10n.dart';
 import 'package:turismo_app/src/core/router/router.dart';
 import 'package:turismo_app/src/features/ontology/presentation/bloc/bloc.dart';
-import 'package:turismo_app/src/features/ontology/presentation/bloc/sub_category_managemen/sub_category_managemen_bloc.dart';
+import 'package:turismo_app/src/features/ontology/presentation/bloc/popular_individual_bloc/popular_individual_bloc_management_bloc.dart';
 import 'package:turismo_app/src/features/user/presentation/bloc/user_auth/user_auth_bloc.dart';
 
 class App extends StatelessWidget {
@@ -24,6 +24,10 @@ class App extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<
               SubCategoryManagemenBloc>(), // <-- Aquí se dispara el evento al iniciar
+        ),
+        BlocProvider(
+          create: (context) => sl<
+              PopularIndividualBlocManagementBloc>(), // <-- Aquí se dispara el evento al iniciar
         ),
       ],
       child: const MyApp(),

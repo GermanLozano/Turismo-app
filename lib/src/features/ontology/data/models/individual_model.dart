@@ -28,7 +28,7 @@ class IndividualModel extends IndividualEntity {
         valoracion:
             LiteralValue.fromMap(json['valoracion'] as Map<String, dynamic>),
         types: LiteralValue.fromMap(json['type'] as Map<String, dynamic>),
-        imageURL: json['imageURL'] as String,
+        imageURL: json['imageURL'] != null ? json['imageURL'] as String : '',
       );
 
   final LiteralValue nombre;

@@ -62,17 +62,18 @@ class RemoteDataSourceImplementation implements RemoteDataSourceInterface {
 
   @override
   Future<List<IndividualModel>> getPopularIndividual() async {
-    final url = Uri.parse('$apiUrl/subcategorias/ofertas-destacadas');
-    final response = await client.get(url);
+    final url = Uri.parse('$apiUrl/ofertas-destacadas');
 
+    final response = await client.get(url);
     if (response.statusCode == 200) {
       final jsonList = json.decode(response.body) as List;
       final individuals = jsonList.map((item) {
-        final individuals =
-            IndividualModel.fromMap(item as Map<String, dynamic>)
-                .copyWith(imageURL: getimageUrl);
+        final imageURL = getimageUrl;
 
-        return individuals;
+        final individuals =
+            IndividualModel.fromMap(item as Map<String, dynamic>);
+
+        return individuals.copyWith(imageURL: imageURL);
       }).toList();
 
       return individuals;

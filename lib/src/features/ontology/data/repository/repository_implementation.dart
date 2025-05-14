@@ -60,7 +60,6 @@ class RepositoryImplementation implements RepositoryInterface {
   FutureEither<List<IndividualEntity>> getPopularIndividual() async {
     try {
       final result = await remoteDataSourceInterface.getPopularIndividual();
-
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));

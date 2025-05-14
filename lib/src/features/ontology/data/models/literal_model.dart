@@ -10,8 +10,8 @@ class LiteralValue {
       LiteralValue.fromMap(json.decode(str) as Map<String, dynamic>);
 
   factory LiteralValue.fromMap(Map<String, dynamic> json) => LiteralValue(
-        type: json['type'] as String,
-        value: json['value'] as String,
+        type: json['type'] != null ? json['type'] as String : '',
+        value: json['value'] != null ? json['value'] as String : '',
       );
   final String type;
   final String value;
