@@ -3,12 +3,13 @@ import 'package:go_router/go_router.dart';
 import 'package:turismo_app/src/core/animations/router_aniamtion.dart';
 import 'package:turismo_app/src/core/config/config.dart';
 import 'package:turismo_app/src/features/global/presentation/screens/home/home.dart';
+import 'package:turismo_app/src/features/ontology/presentation/screens/ontology_home/ontology_home_screen.dart';
 import 'package:turismo_app/src/features/user/presentation/bloc/user_auth/user_auth_bloc.dart';
 import 'package:turismo_app/src/features/user/presentation/screens/login/login_screen.dart';
 import 'package:turismo_app/src/features/user/presentation/screens/register/register_screen.dart';
 
 final appRouter = GoRouter(
-  initialLocation: '/login',
+  initialLocation: '/home',
   routes: [
     GoRoute(
       path: '/login',
@@ -33,25 +34,25 @@ final appRouter = GoRouter(
       name: 'home',
       pageBuilder: (context, state) => routerAniamtion(
         context: context,
-        page: const HomeScreen(),
+        page: const OntologyHome(),
         tipeAnimation: RouterTipeAnimation.fade,
       ),
     ),
   ],
   redirect: (context, state) {
-    final userAuthBloc = context.read<UserAuthBloc>();
-    customLog(">>>>>>>>>>>>>${userAuthBloc.state}");
-    final userAuthState = userAuthBloc.state is UserAuthLoaded;
+    // final userAuthBloc = context.read<UserAuthBloc>();
+    // customLog('>>>>>>>>>>>>>${userAuthBloc.state}');
+    // final userAuthState = userAuthBloc.state is UserAuthLoaded;
 
-    final authRoutes = ['/login', '/register'];
+    // final authRoutes = ['/login', '/register'];
 
-    if (!userAuthState && authRoutes.contains(state.matchedLocation)) {
-      return null;
-    }
+    // if (!userAuthState && authRoutes.contains(state.matchedLocation)) {
+    //   return null;
+    // }
 
-    if (!userAuthState && !authRoutes.contains(state.matchedLocation)) {
-      return '/login';
-    }
+    // if (!userAuthState && !authRoutes.contains(state.matchedLocation)) {
+    //   return '/login';
+    // }
 
   
 

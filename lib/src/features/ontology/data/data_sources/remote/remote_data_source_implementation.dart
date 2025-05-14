@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:turismo_app/src/core/config/config.dart';
 import 'package:turismo_app/src/core/error/exeptions.dart';
 import 'package:turismo_app/src/features/ontology/data/data_sources/remote/remote_data_source_interface.dart';
 import 'package:turismo_app/src/features/ontology/data/models/category_model.dart';
+import 'package:turismo_app/src/features/ontology/domain/entities/categoty_entity.dart';
 
 //api
 class RemoteDataSourceImplementation implements RemoteDataSourceInterface {
@@ -22,21 +24,23 @@ class RemoteDataSourceImplementation implements RemoteDataSourceInterface {
     final response = await client.get(url);
 
     if (response.statusCode == 200) {
-      final jsonList = json.decode(response.body) as List<dynamic>;
-
       // Mapeamos los datos a objetos CategoryList
-      final result = jsonList
-          .map((e) => CategoryList.fromMap(e as Map<String, dynamic>))
-          .toList();
+      final result = CategoryListModel.fromJson(response.body);
 
-      // Extraemos solo las categorías no nulas
-      return result
-          .where((element) => element.nombre != null)
-          .map((e) => e.nombre!)
-          .toList();
+      customLog('===<<<<<>>> ${result.toMap()}');
+
+      return [CategoryModel(value: 'value')];
     } else {
       throw ServerException(
-          message: 'Error al obtener las categorías: ${response.body}',);
+        message: 'Error al obtener las categorías: ${response.body}',
+      );
     }
+  }
+
+  @override
+  Future<List<CategoryModel>> getSubCategories(
+      {required CategoryEntity categoria}) {
+    // TODO: implement getSubCategories
+    throw UnimplementedError();
   }
 }

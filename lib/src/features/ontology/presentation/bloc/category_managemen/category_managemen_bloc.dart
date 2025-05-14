@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:turismo_app/src/core/use_cases/use_cases.dart';
-import 'package:turismo_app/src/features/ontology/domain/entities/category_entity.dart';
+import 'package:turismo_app/src/features/ontology/domain/entities/categoty_entity.dart';
 import 'package:turismo_app/src/features/ontology/domain/use_cases/get_categories_use_case.dart';
 
 part 'category_managemen_event.dart';
@@ -20,6 +20,8 @@ class CategoryManagemenBloc
     GetCategoriesEvent event,
     Emitter<CategoryManagemenState> emit,
   ) async {
+    emit(CategoryLoading());
+
     final result = await getCategoriesUseCase(
       NoParams(),
     );

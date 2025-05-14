@@ -9,7 +9,7 @@ class DependencyInjection {
   static Future<void> init()  async {
     sl.registerLazySingleton(http.Client.new);
 
-      UserDependencyInjection.init();
-      CategoryDependencyInjection.init();
+      await UserDependencyInjection.init();
+      await CategoryDependencyInjection.init();
   }
 }

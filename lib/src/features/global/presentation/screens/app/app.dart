@@ -17,7 +17,8 @@ class App extends StatelessWidget {
           create: (context) => sl<UserAuthBloc>(),
         ),
         BlocProvider(
-          create: (context) => sl<CategoryManagemenBloc>(),
+          create: (context) => sl<CategoryManagemenBloc>()
+          ..add(GetCategoriesEvent()), // <-- Aquí se dispara el evento al iniciar
         ),
       ],
       child: const MyApp(),

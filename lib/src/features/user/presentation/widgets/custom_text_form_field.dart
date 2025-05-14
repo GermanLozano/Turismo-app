@@ -44,7 +44,7 @@ class CustomTextFormField extends StatelessWidget {
         borderRadius: const BorderRadius.only(
             topLeft: borderRadius,
             bottomLeft: borderRadius,
-            bottomRight: borderRadius),
+            bottomRight: borderRadius,),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.06),
@@ -63,13 +63,13 @@ class CustomTextFormField extends StatelessWidget {
         style: const TextStyle(fontSize: 20, color: Colors.black54),
         decoration: InputDecoration(
           floatingLabelStyle: const TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18,),
           enabledBorder: border,
           focusedBorder: border,
           errorBorder: border.copyWith(
-              borderSide: const BorderSide(color: Colors.transparent)),
+              borderSide: const BorderSide(color: Colors.transparent),),
           focusedErrorBorder: border.copyWith(
-              borderSide: const BorderSide(color: Colors.transparent)),
+              borderSide: const BorderSide(color: Colors.transparent),),
           isDense: true,
           label: label != null ? Text(label!) : null,
           hintText: hint,

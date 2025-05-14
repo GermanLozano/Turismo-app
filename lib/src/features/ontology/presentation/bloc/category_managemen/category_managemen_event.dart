@@ -8,3 +8,4 @@ sealed class CategoryManagemenEvent extends Equatable {
 }
 
 final class GetCategoriesEvent extends CategoryManagemenEvent {}
+

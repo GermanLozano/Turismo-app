@@ -1,54 +1,50 @@
-
 import 'dart:convert';
-import 'package:turismo_app/src/features/ontology/domain/entities/category_entity.dart';
 
-class CategoryModel extends CategoryEntity {
-  const CategoryModel({
-    required this.value,
+import 'package:turismo_app/src/features/ontology/domain/entities/categoty_entity.dart';
+class CategoryListModel {
+    final CategoryModel? nombre;
 
-  }) : super(nombreCategoria: value);
-
-  factory CategoryModel.fromJson(String source) =>
-      CategoryModel.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  factory CategoryModel.fromMap(Map<String, dynamic> map) {
-    return CategoryModel(
-      value: map['value'] as String,
-    );
-  }
-
- final String value;
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'value': value,
-    };
-  }
-
-  String toJson() => json.encode(toMap());
-
-  @override
-  String toString() => 'CategoryModel(value: $value)';
-}
-
-class CategoryList {
-
-    CategoryList({
+    CategoryListModel({
         this.nombre,
     });
 
-   // factory CategoryList.fromJson(String str) => CategoryList.fromMap(json.decode(str));
-
-
-    factory CategoryList.fromMap(Map<String, dynamic> json) => CategoryList(
-        nombre: json['nombre'] == null ? null : CategoryModel.fromMap(json['nombre']  as Map<String, dynamic>),
-    );
-
-    final CategoryModel? nombre;
+    factory CategoryListModel.fromJson(String str) => CategoryListModel.fromMap(json.decode(str) as Map<String, dynamic>);
 
     String toJson() => json.encode(toMap());
 
+    factory CategoryListModel.fromMap(Map<String, dynamic> json) => CategoryListModel(
+        nombre: json["nombre"] == null ? null : CategoryModel.fromMap(json["nombre"] as Map<String, dynamic>),
+    );
+
     Map<String, dynamic> toMap() => {
-        'nombre': nombre?.toMap(),
+        "nombre": nombre?.toMap(),
     };
+}
+
+
+
+
+class CategoryModel extends CategoryEntity {
+
+  CategoryModel({
+    required this.value,
+  }) : super (
+    normaliceName: value.replaceAll('_', ' '),
+    originalName: value,
+  );
+
+  factory CategoryModel.fromJson(String str) =>
+      CategoryModel.fromMap(json.decode(str) as Map<String, dynamic>);
+
+  factory CategoryModel.fromMap(Map<String, dynamic> map) => CategoryModel(
+        value: map['value'] as String,
+      );
+
+  final String value;
+
+  String toJson() => json.encode(toMap());
+
+  Map<String, dynamic> toMap() => {
+        'value': value,
+      };
 }
