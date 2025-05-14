@@ -31,18 +31,70 @@ class _BodyTabBarViewState extends State<BodyTabBarView> {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       spacing: 10,
-      children: [SizedBox(), _CustomDropdownButton(), _BuildCarouseSlider()],
+      children: [
+        const SizedBox(),
+        const _CustomDropdownButton(),
+        const _BuildCarouseSlider(),
+        SizedBox(),
+        Expanded(
+          child: BlocBuilder<PopularIndividualBlocManagementBloc,
+              PopularIndividualBlocManagementState>(
+            builder: (context, state) {
+              switch (state) {
+                case PopularIndividualBlocManagementInitial():
+                case PopularIndividualBlocManagementLoading():
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+
+                case PopularIndividualBlocManagementError():
+                  return const SizedBox();
+
+                case PopularIndividualBlocManagementLoaded():
+                  if (state.individuals.isNotEmpty) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: ListView.separated(
+                        itemBuilder: (context, index) {
+                          final individual = state.individuals[index];
+                          return ListTile(
+                            title: Text(individual.name),
+                            subtitle: Text(individual.address),
+                            leading: Container(
+                              width: 100,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    state.individuals[index].imageURL,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
+                        itemCount: state.individuals.length,
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 }
 
 class _CustomDropdownButton extends StatelessWidget {
-  const _CustomDropdownButton({
-    super.key,
-  });
-
+  const _CustomDropdownButton();
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SubCategoryManagemenBloc, SubCategoryManagemenState>(
@@ -62,7 +114,7 @@ class _CustomDropdownButton extends StatelessWidget {
                   onChanged: (value) {
                     context
                         .read<SubCategoryManagemenBloc>()
-                        .categorySeleted(value);
+                        .add(SelectSubCategoryEvent(category: value));
                   },
                 ),
               );
@@ -90,11 +142,12 @@ class _BuildCarouseSliderState extends State<_BuildCarouseSlider>
     return BlocBuilder<PopularIndividualBlocManagementBloc,
         PopularIndividualBlocManagementState>(
       builder: (context, state) {
+        const double height = 200;
         switch (state) {
           case PopularIndividualBlocManagementInitial():
           case PopularIndividualBlocManagementLoading():
             return const SizedBox(
-              height: 300,
+              height: height,
               child: Center(child: CircularProgressIndicator.adaptive()),
             );
 
@@ -106,6 +159,7 @@ class _BuildCarouseSliderState extends State<_BuildCarouseSlider>
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: CustomCarouselWidget(
+                  height: height,
                   individuals: state.individuals,
                 ),
               );
@@ -121,9 +175,14 @@ class _BuildCarouseSliderState extends State<_BuildCarouseSlider>
 }
 
 class CustomCarouselWidget extends StatefulWidget {
-  const CustomCarouselWidget({required this.individuals, super.key});
+  const CustomCarouselWidget({
+    required this.individuals,
+    required this.height,
+    super.key,
+  });
 
   final List<IndividualEntity> individuals;
+  final double height;
 
   @override
   State<CustomCarouselWidget> createState() => _CustomCarouselWidgetState();
@@ -177,9 +236,22 @@ class _CustomCarouselWidgetState extends State<CustomCarouselWidget> {
               Positioned(
                 bottom: 16,
                 left: 16,
-                child: Text(
-                  value.name,
-                  style: const TextStyle(color: Colors.white),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      value.name,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    Text(
+                      value.type,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Center(
@@ -223,7 +295,7 @@ class _CustomCarouselWidgetState extends State<CustomCarouselWidget> {
       }).toList(),
       carouselController: _controller,
       options: CarouselOptions(
-        height: 300,
+        height: widget.height,
         autoPlay: true,
         autoPlayInterval: const Duration(seconds: 10),
         enlargeCenterPage: true,

@@ -90,4 +90,30 @@ class RemoteDataSourceImplementation implements RemoteDataSourceInterface {
     final randomNumer = random.nextInt(200);
     return 'https://picsum.photos/500/400?image=$randomNumer';
   }
+
+  @override
+  Future<List<IndividualModel>> getIndividual(
+      {String? queryData, int? offset}) async {
+    final url = Uri.parse(
+        '$apiUrl/ofertas-destacadas/?offset=$offset,queryData=$queryData'); //modificar ruta
+
+    final response = await client.get(url);
+    if (response.statusCode == 200) {
+      final jsonList = json.decode(response.body) as List;
+      final individuals = jsonList.map((item) {
+        final imageURL = getimageUrl;
+
+        final individuals =
+            IndividualModel.fromMap(item as Map<String, dynamic>);
+
+        return individuals.copyWith(imageURL: imageURL);
+      }).toList();
+
+      return individuals;
+    } else {
+      throw ServerException(
+        message: 'Error al obtener los individuos: ${response.body}',
+      );
+    }
+  }
 }

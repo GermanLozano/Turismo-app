@@ -30,16 +30,15 @@ class RepositoryImplementation implements RepositoryInterface {
     String? queryData,
     int? offset,
   }) async {
-    //  try {
-    //   final result = await remoteDataSourceInterface.get();
-
-    //   return Right(result);
-
-    // } on ServerException catch (e) {
-    //   return Left(ServerFailure(e.message) );
-    // }
-
-    throw UnimplementedError();
+    try {
+      final result = await remoteDataSourceInterface.getIndividual(
+        offset: offset,
+        queryData: queryData,
+      );
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
   }
 
   @override

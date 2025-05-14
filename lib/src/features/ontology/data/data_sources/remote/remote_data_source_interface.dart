@@ -4,7 +4,12 @@ import 'package:turismo_app/src/features/ontology/domain/entities/categoty_entit
 
 abstract interface class RemoteDataSourceInterface {
   Future<List<CategoryModel>> getCategories();
-  Future<List<CategoryModel>> getSubCategories(
-      {required CategoryEntity categoria});
+  Future<List<CategoryModel>> getSubCategories({
+    required CategoryEntity categoria,
+  });
   Future<List<IndividualModel>> getPopularIndividual();
+  Future<List<IndividualModel>> getIndividual({
+    String? queryData,
+    int? offset,
+  });
 }

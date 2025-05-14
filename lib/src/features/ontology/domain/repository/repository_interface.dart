@@ -8,4 +8,8 @@ abstract interface class RepositoryInterface {
     required CategoryEntity categoria,
   });
   FutureEither<List<IndividualEntity>> getPopularIndividual();
+  FutureEither<List<IndividualEntity>> getIndividual({
+    String? queryData,
+    int? offset,
+  });
 }

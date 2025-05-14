@@ -15,8 +15,12 @@ final class IndividualBlocManagementLoading
 
 final class IndividualBlocManagementLoaded
     extends IndividualBlocManagementState {
-  const IndividualBlocManagementLoaded({required this.individuals});
+  const IndividualBlocManagementLoaded({
+    required this.individuals,
+    this.offset,
+  });
   final List<IndividualEntity> individuals;
+  final int? offset;
 
   @override
   List<Object> get props => [individuals];

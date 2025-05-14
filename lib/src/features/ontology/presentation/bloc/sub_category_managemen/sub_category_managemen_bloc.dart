@@ -11,6 +11,7 @@ class SubCategoryManagemenBloc
   SubCategoryManagemenBloc({required this.getSubCategoriesUseCase})
       : super(SubCategoryInitial()) {
     on<GetSubSubCategoriesEvent>(_onGetSubCategories);
+    on<SelectSubCategoryEvent>(_onSelectCategory);
   }
   final GetSubCategoriesUseCase getSubCategoriesUseCase;
 
@@ -37,10 +38,18 @@ class SubCategoryManagemenBloc
     );
   }
 
-  void categorySeleted(CategoryEntity? category) => emit(
+  Future<void> _onSelectCategory(
+    SelectSubCategoryEvent event,
+    Emitter<SubCategoryManagemenState> emit,
+  ) async {
+    if (state is SubCategoryLoaded) {
+      final loadedState = state as SubCategoryLoaded;
+      emit(
         SubCategoryLoaded(
-          categorySeleted: category,
-          categories: (state as SubCategoryLoaded).categories,
+          categorySeleted: event.category,
+          categories: loadedState.categories,
         ),
       );
+    }
+  }
 }
