@@ -7,8 +7,8 @@ sealed class SubCategoryManagemenEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class SubGetSubCategoriesEvent extends SubCategoryManagemenEvent {
-  const SubGetSubCategoriesEvent({required this.category});
+final class GetSubSubCategoriesEvent extends SubCategoryManagemenEvent {
+  const GetSubSubCategoriesEvent({required this.category});
 
   final CategoryEntity category;
 

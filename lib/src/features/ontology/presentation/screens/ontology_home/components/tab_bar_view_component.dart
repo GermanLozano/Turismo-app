@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turismo_app/src/features/ontology/domain/entities/categoty_entity.dart';
 import 'package:turismo_app/src/features/ontology/presentation/bloc/bloc.dart';
-import 'package:turismo_app/src/features/ontology/presentation/screens/ontology_home/components/body_tab_bar_view.dart';
+import 'package:turismo_app/src/features/ontology/presentation/screens/ontology_home/components/body_tap_bar_view_.dart';
 
 class TapBarViewComponenet extends StatelessWidget {
   const TapBarViewComponenet({

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+
 import 'package:equatable/equatable.dart';
 import 'package:turismo_app/src/core/use_cases/use_cases.dart';
 import 'package:turismo_app/src/features/ontology/domain/entities/categoty_entity.dart';
@@ -13,6 +14,7 @@ class CategoryManagemenBloc
     required this.getCategoriesUseCase,
   }) : super(CategoryInitial()) {
     on<GetCategoriesEvent>(_onGetCategories);
+    on<SelectCategoryEvent>(_onSelectCategory);
   }
   final GetCategoriesUseCase getCategoriesUseCase;
 
@@ -32,12 +34,26 @@ class CategoryManagemenBloc
           failure.message,
         ),
       ),
-      (susses) {
-        //customLog(susses.first.nombreCategoria);
+      (success) {
         emit(
-          CategoryLoaded(susses),
+          CategoryLoaded(categories: success),
         );
       },
     );
+  }
+
+  Future<void> _onSelectCategory(
+    SelectCategoryEvent event,
+    Emitter<CategoryManagemenState> emit,
+  ) async {
+    if (state is CategoryLoaded) {
+      final loadedState = state as CategoryLoaded;
+      emit(
+        CategoryLoaded(
+          categorySelected: event.category,
+          categories: loadedState.categories,
+        ),
+      );
+    }
   }
 }

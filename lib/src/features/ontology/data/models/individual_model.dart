@@ -1,73 +1,65 @@
-
 import 'dart:convert';
+
+import 'package:turismo_app/src/features/ontology/data/models/literal_model.dart';
 import 'package:turismo_app/src/features/ontology/domain/entities/individual_entity.dart';
 
 class IndividualModel extends IndividualEntity {
-  const IndividualModel({
-    required this.name,
-    required this.address,
-    required this.valoration,
-    required this.type,
-    required this.imageUrl,
+  IndividualModel({
+    required this.nombre,
+    required this.direccion,
+    required this.valoracion,
+    required this.types,
+    required this.imageURL,
   }) : super(
-          name: name,
-          address: address,
-          valoration: valoration,
-          type: type,
-          imageUrl: imageUrl,
+          name: nombre.value,
+          address: direccion.value,
+          valoration: valoracion.value,
+          type: types.value,
+          imageURL: imageURL,
         );
 
-  factory IndividualModel.fromJson(String source) =>
-    IndividualModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory IndividualModel.fromJson(String str) =>
+      IndividualModel.fromMap(json.decode(str) as Map<String, dynamic>);
 
-  factory IndividualModel.fromMap(Map<String, dynamic> map) {
-    return IndividualModel(
-      name: map['nombre'] as String? ?? '',
-      address: map['direccion'] as String? ?? '',
-      valoration: map['valoracion'] as String? ?? '',
-      type: map['type'] as String? ?? '',
-      imageUrl: map['imageUrl'] as String? ?? '',
-    );
-  }
-
-  
-  final String name;
-  final String address;
-  final String valoration;
-  final String type;
-  final String imageUrl;
-
-  Map<String, dynamic> toMap() {
-    return {
-      'nombre': name,
-      'direccion': address,
-      'valoracion': valoration,
-      'type': type,
-      'imageUrl': imageUrl,
-    };
-  }
-
-  String toJson() => json.encode(toMap());
-
-  @override
-  String toString() =>
-      'CategoryModel(name: $name, address: $address, valoration: $valoration, type: $type, imageUrl: $imageUrl)';
-}
-
-class CategoryList {
-  CategoryList({
-    this.category,
-  });
-
-  factory CategoryList.fromMap(Map<String, dynamic> json) => CategoryList(
-        category: IndividualModel.fromMap(json),
+  factory IndividualModel.fromMap(Map<String, dynamic> json) => IndividualModel(
+        nombre: LiteralValue.fromMap(json['nombre'] as Map<String, dynamic>),
+        direccion:
+            LiteralValue.fromMap(json['direccion'] as Map<String, dynamic>),
+        valoracion:
+            LiteralValue.fromMap(json['valoracion'] as Map<String, dynamic>),
+        types: LiteralValue.fromMap(json['type'] as Map<String, dynamic>),
+        imageURL: json['imageURL'] as String,
       );
 
-  final IndividualModel? category;
-
-  Map<String, dynamic> toMap() => {
-        'category': category?.toMap(),
-      };
+  final LiteralValue nombre;
+  final LiteralValue direccion;
+  final LiteralValue valoracion;
+  final LiteralValue types;
+  final String imageURL;
 
   String toJson() => json.encode(toMap());
+
+  Map<String, dynamic> toMap() => {
+        'nombre': nombre.toMap(),
+        'direccion': direccion.toMap(),
+        'valoracion': valoracion.toMap(),
+        'type': types.toMap(),
+        'imageURL': imageURL,
+      };
+
+  IndividualModel copyWith({
+    LiteralValue? nombre,
+    LiteralValue? direccion,
+    LiteralValue? valoracion,
+    LiteralValue? types,
+    String? imageURL,
+  }) {
+    return IndividualModel(
+      nombre: nombre ?? this.nombre,
+      direccion: direccion ?? this.direccion,
+      valoracion: valoracion ?? this.valoracion,
+      types: types ?? this.types,
+      imageURL: imageURL ?? this.imageURL,
+    );
+  }
 }

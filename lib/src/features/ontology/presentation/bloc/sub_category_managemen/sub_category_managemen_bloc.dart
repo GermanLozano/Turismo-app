@@ -10,12 +10,12 @@ class SubCategoryManagemenBloc
     extends Bloc<SubCategoryManagemenEvent, SubCategoryManagemenState> {
   SubCategoryManagemenBloc({required this.getSubCategoriesUseCase})
       : super(SubCategoryInitial()) {
-    on<SubGetSubCategoriesEvent>(_onGetSubCategories);
+    on<GetSubSubCategoriesEvent>(_onGetSubCategories);
   }
   final GetSubCategoriesUseCase getSubCategoriesUseCase;
 
   Future<void> _onGetSubCategories(
-    SubGetSubCategoriesEvent event,
+    GetSubSubCategoriesEvent event,
     Emitter<SubCategoryManagemenState> emit,
   ) async {
     emit(SubCategoryLoading());
@@ -28,10 +28,10 @@ class SubCategoryManagemenBloc
           failure.message,
         ),
       ),
-      (susses) {
-        //customLog(susses.first.nombreCategoria);
+      (success) {
+        //customLog(success.first.nombreCategoria);
         emit(
-          SubCategoryLoaded(categories: susses),
+          SubCategoryLoaded(categories: success),
         );
       },
     );

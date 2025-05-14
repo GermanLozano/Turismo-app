@@ -44,10 +44,10 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
         customLog('❌ Error en login: ${failure.message}');
         emit(UserAuthFailure(failure.message));
       },
-      (susses) {
-        customLog(susses.toString());
+      (success) {
+        customLog(success.toString());
         emit(
-          UserAuthLoaded(susses),
+          UserAuthLoaded(success),
         );
       },
     );
@@ -69,7 +69,7 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
         customLog('❌ Error en el registro: ${failure.message}');
         emit(UserAuthFailure(failure.message));
       },
-      (susses) {
+      (success) {
         emit(
           const UserAuthSignUpSuccess(
             message: 'usuario creado satisfactoriamente',
@@ -93,8 +93,8 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
         customLog('❌ Error al cerrar seccion: ${failure.message}');
         emit(UserAuthFailure(failure.message));
       },
-      (susses) {
-        customLog(susses.toString());
+      (success) {
+        customLog(success.toString());
         emit(
           UserAuthInitial(),
         );

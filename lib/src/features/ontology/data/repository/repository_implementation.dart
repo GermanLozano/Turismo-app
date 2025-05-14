@@ -20,15 +20,16 @@ class RepositoryImplementation implements RepositoryInterface {
       final result = await remoteDataSourceInterface.getCategories();
 
       return Right(result);
-
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message) );
+      return Left(ServerFailure(e.message));
     }
   }
 
   @override
-  FutureEither<List<IndividualEntity>> getIndividual (
-      {String? queryData, int? offset,}) async {
+  FutureEither<List<IndividualEntity>> getIndividual({
+    String? queryData,
+    int? offset,
+  }) async {
     //  try {
     //   final result = await remoteDataSourceInterface.get();
 
@@ -42,15 +43,27 @@ class RepositoryImplementation implements RepositoryInterface {
   }
 
   @override
-  FutureEither<List<CategoryEntity>> getSubCategories(
-      {required CategoryEntity categoria,}) async{
+  FutureEither<List<CategoryEntity>> getSubCategories({
+    required CategoryEntity categoria,
+  }) async {
     try {
-      final result = await remoteDataSourceInterface.getSubCategories(categoria: categoria);
+      final result = await remoteDataSourceInterface.getSubCategories(
+          categoria: categoria);
 
       return Right(result);
-
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message) );
+      return Left(ServerFailure(e.message));
+    }
+  }
+
+  @override
+  FutureEither<List<IndividualEntity>> getPopularIndividual() async {
+    try {
+      final result = await remoteDataSourceInterface.getPopularIndividual();
+
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     }
   }
 }

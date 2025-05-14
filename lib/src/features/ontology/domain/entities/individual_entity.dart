@@ -6,14 +6,14 @@ class IndividualEntity extends Equatable {
     required this.address,
     required this.valoration,
     required this.type,
-    required this.imageUrl,
+    required this.imageURL,
   });
 
   final String name;
   final String address;
   final String valoration;
   final String type;
-  final String imageUrl;
+  final String imageURL;
 
   @override
   List<Object> get props {
@@ -22,7 +22,7 @@ class IndividualEntity extends Equatable {
       address,
       valoration,
       type,
-      imageUrl,
+      imageURL,
     ];
   }
 }

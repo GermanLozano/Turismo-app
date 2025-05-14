@@ -9,9 +9,8 @@ sealed class CategoryManagemenEvent extends Equatable {
 
 final class GetCategoriesEvent extends CategoryManagemenEvent {}
 
-final class GetSubCategoriesEvent extends CategoryManagemenEvent {
-  const GetSubCategoriesEvent({required this.category});
-
+final class SelectCategoryEvent extends CategoryManagemenEvent {
+  const SelectCategoryEvent({required this.category});
   final CategoryEntity category;
 
   @override
