@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:http/http.dart' as http;
+import 'package:turismo_app/src/core/config/config.dart';
 import 'package:turismo_app/src/core/error/exeptions.dart';
 import 'package:turismo_app/src/features/ontology/data/data_sources/remote/remote_data_source_interface.dart';
 import 'package:turismo_app/src/features/ontology/data/models/category_model.dart';
@@ -92,12 +93,20 @@ class RemoteDataSourceImplementation implements RemoteDataSourceInterface {
   }
 
   @override
-  Future<List<IndividualModel>> getIndividual(
-      {String? queryData, int? offset}) async {
+  Future<List<IndividualModel>> getIndividual({
+    String? category = '',
+    String? queryData = '',
+    int? offset = 0,
+  }) async {
     final url = Uri.parse(
-        '$apiUrl/ofertas-destacadas/?offset=$offset,queryData=$queryData'); //modificar ruta
+      '$apiUrl/buscar?q=$queryData&offset=$offset&category=$category',
+    ); //modificar ruta
+
+    customLog('url <<<<<<<<<<<${url}>>>>>>>>>>');
 
     final response = await client.get(url);
+    customLog('<<<<<<<<<<<${response.body}>>>>>>>>>>');
+    customLog(response.body);
     if (response.statusCode == 200) {
       final jsonList = json.decode(response.body) as List;
       final individuals = jsonList.map((item) {

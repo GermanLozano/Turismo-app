@@ -11,5 +11,6 @@ abstract interface class RepositoryInterface {
   FutureEither<List<IndividualEntity>> getIndividual({
     String? queryData,
     int? offset,
+    String? category,
   });
 }

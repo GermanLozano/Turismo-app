@@ -1,0 +1,2 @@
+C:/FlutterDev/Turismo-app/android/app/.cxx/Debug/4u2d572c/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/FlutterDev/Turismo-app/android/app/.cxx/Debug/4u2d572c/armeabi-v7a/CMakeFiles/rebuild_cache.dir

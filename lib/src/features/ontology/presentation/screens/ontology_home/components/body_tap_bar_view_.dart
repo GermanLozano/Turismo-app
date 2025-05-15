@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:turismo_app/src/features/ontology/domain/entities/categoty_entity.dart';
 import 'package:turismo_app/src/features/ontology/domain/entities/individual_entity.dart';
+import 'package:turismo_app/src/features/ontology/presentation/bloc/individual_bloc/individual_bloc_management_bloc.dart';
 import 'package:turismo_app/src/features/ontology/presentation/bloc/popular_individual_bloc/popular_individual_bloc_management_bloc.dart';
 import 'package:turismo_app/src/features/ontology/presentation/bloc/sub_category_managemen/sub_category_managemen_bloc.dart';
 import 'package:turismo_app/src/features/ontology/presentation/screens/ontology_home/widgets/category_dropwn_buttom_widget.dart';
@@ -31,64 +32,75 @@ class _BodyTabBarViewState extends State<BodyTabBarView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       spacing: 10,
       children: [
-        const SizedBox(),
-        const _CustomDropdownButton(),
-        const _BuildCarouseSlider(),
+       SizedBox(),
+       _CustomDropdownButton(),
+       _BuildCarouseSlider(),
         SizedBox(),
-        Expanded(
-          child: BlocBuilder<PopularIndividualBlocManagementBloc,
-              PopularIndividualBlocManagementState>(
-            builder: (context, state) {
-              switch (state) {
-                case PopularIndividualBlocManagementInitial():
-                case PopularIndividualBlocManagementLoading():
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  );
-
-                case PopularIndividualBlocManagementError():
-                  return const SizedBox();
-
-                case PopularIndividualBlocManagementLoaded():
-                  if (state.individuals.isNotEmpty) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: ListView.separated(
-                        itemBuilder: (context, index) {
-                          final individual = state.individuals[index];
-                          return ListTile(
-                            title: Text(individual.name),
-                            subtitle: Text(individual.address),
-                            leading: Container(
-                              width: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                    state.individuals[index].imageURL,
-                                  ),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const Divider();
-                        },
-                        itemCount: state.individuals.length,
-                      ),
-                    );
-                  }
-                  return const SizedBox();
-              }
-            },
-          ),
-        ),
+        IndividualList(),
       ],
+    );
+  }
+}
+
+class IndividualList extends StatelessWidget {
+  const IndividualList({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: BlocBuilder<IndividualBlocManagementBloc,
+          IndividualBlocManagementState>(
+        builder: (context, state) {
+          switch (state) {
+            case IndividualBlocManagementInitial():
+            case IndividualBlocManagementLoading():
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
+    
+            case IndividualBlocManagementError():
+              return const SizedBox();
+    
+            case IndividualBlocManagementLoaded():
+              if (state.individuals.isNotEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ListView.separated(
+                    itemBuilder: (context, index) {
+                      final individual = state.individuals[index];
+                      return ListTile(
+                        title: Text(individual.name),
+                        subtitle: Text(individual.address),
+                        leading: Container(
+                          width: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                state.individuals[index].imageURL,
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Divider();
+                    },
+                    itemCount: state.individuals.length,
+                  ),
+                );
+              }
+              return const SizedBox();
+          }
+        },
+      ),
     );
   }
 }
@@ -115,6 +127,10 @@ class _CustomDropdownButton extends StatelessWidget {
                     context
                         .read<SubCategoryManagemenBloc>()
                         .add(SelectSubCategoryEvent(category: value));
+
+                    context
+                        .read<IndividualBlocManagementBloc>() 
+                        .add(GetIndividuals(category: value?.originalName));    
                   },
                 ),
               );

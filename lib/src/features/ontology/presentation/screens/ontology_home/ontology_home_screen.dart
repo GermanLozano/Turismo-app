@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turismo_app/src/features/ontology/presentation/bloc/bloc.dart';
+import 'package:turismo_app/src/features/ontology/presentation/bloc/individual_bloc/individual_bloc_management_bloc.dart';
 import 'package:turismo_app/src/features/ontology/presentation/bloc/popular_individual_bloc/popular_individual_bloc_management_bloc.dart';
 import 'package:turismo_app/src/features/ontology/presentation/screens/ontology_home/components/app_bar_component.dart';
 import 'package:turismo_app/src/features/ontology/presentation/screens/ontology_home/components/tab_bar_view_component.dart';
@@ -24,6 +25,8 @@ class _OntologyHomeState extends State<OntologyHome>
     context
         .read<PopularIndividualBlocManagementBloc>()
         .add(GetPopularIndividualEvent());
+
+        
     super.initState();
   }
 
@@ -43,6 +46,9 @@ class _OntologyHomeState extends State<OntologyHome>
               length: state.categories.length,
               vsync: this,
             );
+            context
+                .read<IndividualBlocManagementBloc>()
+                .add(GetIndividuals(category: state.categories.first.originalName));
           }
         },
         builder: (context, state) {

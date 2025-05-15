@@ -27,6 +27,7 @@ class RepositoryImplementation implements RepositoryInterface {
 
   @override
   FutureEither<List<IndividualEntity>> getIndividual({
+    String? category,
     String? queryData,
     int? offset,
   }) async {
@@ -34,6 +35,7 @@ class RepositoryImplementation implements RepositoryInterface {
       final result = await remoteDataSourceInterface.getIndividual(
         offset: offset,
         queryData: queryData,
+        category: category,
       );
       return Right(result);
     } on ServerException catch (e) {
@@ -47,7 +49,7 @@ class RepositoryImplementation implements RepositoryInterface {
   }) async {
     try {
       final result = await remoteDataSourceInterface.getSubCategories(
-          categoria: categoria);
+          categoria: categoria,);
 
       return Right(result);
     } on ServerException catch (e) {

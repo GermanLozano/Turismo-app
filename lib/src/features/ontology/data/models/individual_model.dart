@@ -35,6 +35,7 @@ class IndividualModel extends IndividualEntity {
   final LiteralValue direccion;
   final LiteralValue valoracion;
   final LiteralValue types;
+  @override
   final String imageURL;
 
   String toJson() => json.encode(toMap());

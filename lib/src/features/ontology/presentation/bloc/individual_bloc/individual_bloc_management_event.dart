@@ -9,9 +9,9 @@ sealed class IndividualBlocManagementEvent extends Equatable {
 
 final class GetIndividuals extends IndividualBlocManagementEvent {
   const GetIndividuals({
-    this.query,
-    this.offSet,
-    this.category,
+    this.query = '',
+    this.offSet = 0,
+    this.category = '',
   });
   final String? category;
   final String? query;

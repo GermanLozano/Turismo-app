@@ -11,5 +11,6 @@ abstract interface class RemoteDataSourceInterface {
   Future<List<IndividualModel>> getIndividual({
     String? queryData,
     int? offset,
+    String? category,
   });
 }

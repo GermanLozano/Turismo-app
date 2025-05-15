@@ -5,6 +5,7 @@ import 'package:turismo_app/src/features/global/presentation/widgets/custom_text
 import 'package:turismo_app/src/features/global/presentation/widgets/geometrical_background.dart';
 import 'package:turismo_app/src/features/ontology/domain/entities/categoty_entity.dart';
 import 'package:turismo_app/src/features/ontology/presentation/bloc/bloc.dart';
+import 'package:turismo_app/src/features/ontology/presentation/bloc/individual_bloc/individual_bloc_management_bloc.dart';
 import 'package:turismo_app/src/features/ontology/presentation/screens/ontology_home/widgets/widgets.dart';
 import 'package:turismo_app/src/features/user/presentation/bloc/bloc.dart';
 
@@ -49,9 +50,14 @@ class _CustomAppBarTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Flexible(
+        Flexible(
           child: CustomTextFormField(
             hintText: 'Search Entity',
+            onFieldSubmitted: (value) {
+              context.read<IndividualBlocManagementBloc>().add(
+                    GetIndividuals(query: value),
+                  );
+            },
           ),
         ),
         BlocListener<UserAuthBloc, UserAuthState>(
