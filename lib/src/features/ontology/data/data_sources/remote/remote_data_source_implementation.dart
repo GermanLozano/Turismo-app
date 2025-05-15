@@ -94,19 +94,20 @@ class RemoteDataSourceImplementation implements RemoteDataSourceInterface {
 
   @override
   Future<List<IndividualModel>> getIndividual({
-    String? category = '',
-    String? queryData = '',
-    int? offset = 0,
+    String? category,
+    String? queryData,
+    int? offset,
   }) async {
+    final queryData0 = queryData ?? '';
+    final offset0 = offset ?? 0;
+    final category0 = category ?? '';
+
     final url = Uri.parse(
-      '$apiUrl/buscar?q=$queryData&offset=$offset&category=$category',
+      '$apiUrl/buscar?q=$queryData0&offset=$offset0&category=$category0',
     ); //modificar ruta
 
-    customLog('url <<<<<<<<<<<${url}>>>>>>>>>>');
-
     final response = await client.get(url);
-    customLog('<<<<<<<<<<<${response.body}>>>>>>>>>>');
-    customLog(response.body);
+
     if (response.statusCode == 200) {
       final jsonList = json.decode(response.body) as List;
       final individuals = jsonList.map((item) {

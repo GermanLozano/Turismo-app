@@ -117,6 +117,9 @@ class _CustomTabBar extends StatelessWidget implements PreferredSizeWidget {
                       category: state[index],
                     ),
                   );
+              context.read<IndividualBlocManagementBloc>().add(
+                    GetIndividuals(category: state[index].originalName),
+                  );
             },
             tabs: state
                 .map((category) => Tab(text: category.normaliceName))

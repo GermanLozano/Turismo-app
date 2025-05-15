@@ -35,9 +35,9 @@ class _BodyTabBarViewState extends State<BodyTabBarView> {
     return const Column(
       spacing: 10,
       children: [
-       SizedBox(),
-       _CustomDropdownButton(),
-       _BuildCarouseSlider(),
+        SizedBox(),
+        _CustomDropdownButton(),
+        _BuildCarouseSlider(),
         SizedBox(),
         IndividualList(),
       ],
@@ -62,10 +62,10 @@ class IndividualList extends StatelessWidget {
               return const Center(
                 child: CircularProgressIndicator.adaptive(),
               );
-    
+
             case IndividualBlocManagementError():
               return const SizedBox();
-    
+
             case IndividualBlocManagementLoaded():
               if (state.individuals.isNotEmpty) {
                 return Padding(
@@ -97,7 +97,18 @@ class IndividualList extends StatelessWidget {
                   ),
                 );
               }
-              return const SizedBox();
+              return const Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.view_carousel_outlined,
+                      size: 100,
+                    ),
+                    Text('No data'),
+                  ],
+                ),
+              );
           }
         },
       ),
@@ -129,8 +140,8 @@ class _CustomDropdownButton extends StatelessWidget {
                         .add(SelectSubCategoryEvent(category: value));
 
                     context
-                        .read<IndividualBlocManagementBloc>() 
-                        .add(GetIndividuals(category: value?.originalName));    
+                        .read<IndividualBlocManagementBloc>()
+                        .add(GetIndividuals(category: value?.originalName));
                   },
                 ),
               );
